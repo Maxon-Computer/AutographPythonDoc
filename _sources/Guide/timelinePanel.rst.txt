@@ -1,0 +1,100 @@
+.. currentModule:: Autograph
+
+Interacting with the Timeline
+==============================
+
+The :class:`TimelinePanel` allows to control the :attr:`TimelinePanel.currentTime`, the :attr:`TimelinePanel.activeComposition`, the current :class:`TimelineRow` selection and the selected keyframes.
+
+
+Controlling the time
+----------------------
+
+.. code-block::
+
+  # Get the user focused timeline panel
+  timeline=project.getLastFocusedTimelinePanel()
+
+  # Move the timeline to 1 sec
+  timeline.currentTime = Autograph.Timecode(0,0,1,0)
+
+
+You can react to the timeline's changes with the :meth:`TimelinePanel.onCurrentTimeChanged` :
+
+.. code-block::
+
+  def onTimeChanged(timeline, time):
+    print("The time is now %r" % time)
+
+  timeline.onCurrentTimeChanged(onTimeChanged)
+
+
+Get the current rows selection
+-------------------------------
+
+
+.. code-block::
+
+  for row in timeline.getSelectedRows():
+    # row.model is a tuple [Effect,Param] since each row
+    # can be either an Effect (which could be a layer or generator or modifier) or a Param
+    if row.model[0]:
+      print(row.model[0].getDisplayName())
+
+
+You can react to changes made to the selection with :meth:`TimelinePanel.onSelectionChanged` . 
+
+The keyframes selection is also available with :meth:`TimelinePanel.getSelectedKeyframes` . 
+
+Saving the current selection to JSON
+-------------------------------------
+
+You can save the selected row with :meth:`TimelinePanel.getClipboardFromSelection()` or even with an arbitrary list of rows and keyframes with :meth:`TimelinePanel.getClipboard`. 
+
+The :class:`TimelineClibpoard` can then be saved to JSON with :meth:`TimelineClipboard.getText()`.
+It can also be stored in the Operating System's clipboard with :meth:`TimelineClipboard.storeInSystemClipboard()`.
+This is useful to paste the JSON text in a text editor and save it somewhere.
+
+To load from a JSON string, you can use :meth:`TimelinePanel.getClipboardFromSystem()` or directly construct a :class:`TimelineClipboard` from the string. 
+
+Finally, to apply a clipboard to the current timeline selection, you can use :meth:`TimelinePanel.applyClipboardToSelection(cb)`
+
+
+.. code-block::
+
+  timeline.getClipboardFromSelection().storeInSystemClipboard()
+
+  ...
+
+  timeline.applyClipboardToSelection(timeline.getClipboardFromSystem())
+
+
+.. _timeMapping:
+
+Mapping time to Params
+-----------------------
+
+When accessing keyframes on a :class:`Param` (e.g: using :meth:`DoubleParamBase.getValue` or directly using :class:`Curve`), the time is always expressed in seconds, in a time-space local to the parameter. 
+
+If a layer has a time-offset or has been time-stretched, the local time of any :class:`Param` on a layer is no longer the same time as the timeline's time.
+
+If you need to programmatically change values on a :class:`Param` at the current :attr:`TimelinePanel.currentTime`, you will need to first map it to the Param local time using:
+
+.. code-block::
+
+  paramLocalTime=timeline.mapTimelineToParamTime(param, timeline.timecodeToSeconds(timeline.currentTime))
+
+If you need to map keyframes of a Param to their actual time on the timeline, you need to apply the inverse mapping:
+
+.. code-block::
+
+  keyframes = param.getCurve().getKeyFrames()
+  for k in keyframes:
+    keyTimelineTime=timeline.mapParamTimeToTimeline(param, k.time)
+
+
+
+
+
+
+
+

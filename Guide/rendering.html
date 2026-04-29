@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creating Renders &mdash; Autograph 2026.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=c8c3da16"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/dark_mode_js/default_dark.js?v=fd565c74"></script>
+        <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Creating custom Panels" href="customPanels.html" />
+    <link rel="prev" title="Edit Params" href="editParams.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Autograph
+          </a>
+              <div class="version">
+                2026.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="startupscripts.html">Start-up scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importItems.html">Manage a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="editComposition.html">Edit a Composition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="editParams.html">Edit Params</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Creating Renders</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#reacting-to-render-events">Reacting to render events</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="customPanels.html">Creating custom Panels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2DPaths.html">Using 2D Paths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timelinePanel.html">Interacting with the Timeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Autograph</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Guide</a></li>
+      <li class="breadcrumb-item active">Creating Renders</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Guide/rendering.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="creating-renders">
+<span id="rendering"></span><h1>Creating Renders<a class="headerlink" href="#creating-renders" title="Link to this heading"></a></h1>
+<p>To render a video/image sequence on disk, the main API to use is the <a class="reference internal" href="../reference.html#Autograph.RenderManager" title="Autograph.RenderManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">RenderManager</span></code></a> that can be accessed from <a class="reference internal" href="../reference.html#Autograph.Project.getRenderManager" title="Autograph.Project.getRenderManager"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.getRenderManager()</span></code></a></p>
+<p>The <a class="reference internal" href="../reference.html#Autograph.RenderManager" title="Autograph.RenderManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">RenderManager</span></code></a> acts as a queue of <a class="reference internal" href="../reference.html#Autograph.CompRender" title="Autograph.CompRender"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompRender</span></code></a> and can start rendering them.</p>
+<p>A <a class="reference internal" href="../reference.html#Autograph.CompRender" title="Autograph.CompRender"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompRender</span></code></a> defines a list of <a class="reference internal" href="../reference.html#Autograph.CompRenderInstance" title="Autograph.CompRenderInstance"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompRenderInstance</span></code></a> to render for a given <a class="reference internal" href="../reference.html#Autograph.Composition" title="Autograph.Composition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Composition</span></code></a>.</p>
+<p>Each <a class="reference internal" href="../reference.html#Autograph.CompRenderInstance" title="Autograph.CompRenderInstance"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompRenderInstance</span></code></a> defines all parameters of a <a class="reference internal" href="../reference.html#Autograph.Composition" title="Autograph.Composition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Composition</span></code></a> to be rendered. The render instance contains a list of <a class="reference internal" href="../reference.html#Autograph.CompRenderFile" title="Autograph.CompRenderFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompRenderFile</span></code></a>.</p>
+<p>Each <a class="reference internal" href="../reference.html#Autograph.CompRenderFile" title="Autograph.CompRenderFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompRenderFile</span></code></a> in the list will then take the output of the render and encode it to the appropriate image/video file. This architecture is useful to render the same Composition with the same parameters in various output formats/codecs.</p>
+<p>Let’s see an example to setup a Quicktime ProRes render of a composition in Full HD:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">project</span><span class="o">=</span><span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getActiveProject</span><span class="p">()</span>
+<span class="n">comp</span><span class="o">=</span><span class="n">project</span><span class="o">.</span><span class="n">getItemByName</span><span class="p">(</span><span class="s2">&quot;Composition&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">getMainEffectInstance</span><span class="p">()</span>
+
+<span class="n">rm</span><span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="n">getRenderManager</span><span class="p">()</span>
+
+<span class="n">render</span><span class="o">=</span><span class="n">Autograph</span><span class="o">.</span><span class="n">CompRender</span><span class="p">()</span>
+<span class="n">render</span><span class="o">.</span><span class="n">setComposition</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+
+<span class="n">instance</span><span class="o">=</span><span class="n">Autograph</span><span class="o">.</span><span class="n">CompRenderInstance</span><span class="p">()</span>
+<span class="n">render</span><span class="o">.</span><span class="n">insertInstance</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+
+<span class="n">file</span><span class="o">=</span><span class="n">Autograph</span><span class="o">.</span><span class="n">CompRenderFile</span><span class="p">();</span>
+<span class="n">instance</span><span class="o">.</span><span class="n">insertFile</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+<span class="c1"># or in a one-liner:</span>
+<span class="p">(</span><span class="n">render</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span> <span class="o">=</span> <span class="n">rm</span><span class="o">.</span><span class="n">createRenderForComposition</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+
+<span class="n">instance</span><span class="o">.</span><span class="n">setFormat</span><span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">)</span>
+
+<span class="n">file</span><span class="o">.</span><span class="n">filePathOverride</span> <span class="o">=</span> <span class="s1">&#39;/Users/&lt;user&gt;/tmp/myVideo.mov&#39;</span>
+
+<span class="n">file</span><span class="o">.</span><span class="n">fileFormat</span> <span class="o">=</span> <span class="s1">&#39;mov&#39;</span>
+<span class="n">file</span><span class="o">.</span><span class="n">videoCodec</span> <span class="o">=</span> <span class="s1">&#39;prores&#39;</span>
+<span class="n">file</span><span class="o">.</span><span class="n">setProperty</span><span class="p">(</span><span class="s1">&#39;prores_profile&#39;</span><span class="p">,</span> <span class="s1">&#39;PR_422HQ&#39;</span><span class="p">)</span>
+
+<span class="n">rm</span><span class="o">.</span><span class="n">insertRender</span><span class="p">(</span><span class="n">render</span><span class="p">)</span>
+
+<span class="c1"># If True, blocks until finished</span>
+<span class="n">rm</span><span class="o">.</span><span class="n">startRenders</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="reacting-to-render-events">
+<h2>Reacting to render events<a class="headerlink" href="#reacting-to-render-events" title="Link to this heading"></a></h2>
+<p>It may be useful to execute specific code when certain events are triggered, such as when a frame is rendered or when a render is finished.</p>
+<p>The <a class="reference internal" href="../reference.html#Autograph.RenderManager.onRenderFinished" title="Autograph.RenderManager.onRenderFinished"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RenderManager.onRenderFinished()</span></code></a> callback is invoked when all <a class="reference internal" href="../reference.html#Autograph.CompRender" title="Autograph.CompRender"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompRender</span></code></a> are finished. This is useful to know that Autograph is finished rendering the whole queue.</p>
+<p>You may be notified of the progress evolution of each <a class="reference internal" href="../reference.html#Autograph.CompRender" title="Autograph.CompRender"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompRender</span></code></a> with the <a class="reference internal" href="../reference.html#Autograph.CompRender.onProgressChanged" title="Autograph.CompRender.onProgressChanged"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CompRender.onProgressChanged()</span></code></a> callback.</p>
+<p>The <a class="reference internal" href="../reference.html#Autograph.CompRenderFile.onFrameRendered" title="Autograph.CompRenderFile.onFrameRendered"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CompRenderFile.onFrameRendered()</span></code></a> callback is invoked when a frame is rendered and passes in parameter the file that was just written. It also triggers at the same time the <a class="reference internal" href="../reference.html#Autograph.CompRenderFile.onProgressChanged" title="Autograph.CompRenderFile.onProgressChanged"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CompRenderFile.onProgressChanged()</span></code></a> callback.</p>
+<p>The <a class="reference internal" href="../reference.html#Autograph.CompRenderFile.onRenderFinished" title="Autograph.CompRenderFile.onRenderFinished"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CompRenderFile.onRenderFinished()</span></code></a> callback is invoked when the full sequence/video is finished rendering. This may be useful to trigger custom pipeline to e.g: upload the file to a server.</p>
+<p>The <a class="reference internal" href="../reference.html#Autograph.CompRenderFile.onRenderStarted" title="Autograph.CompRenderFile.onRenderStarted"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CompRenderFile.onRenderStarted()</span></code></a> callback is invoked when Autograph starts rendering this file in the queue.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="editParams.html" class="btn btn-neutral float-left" title="Edit Params" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="customPanels.html" class="btn btn-neutral float-right" title="Creating custom Panels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 Maxon Computer GmbH.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

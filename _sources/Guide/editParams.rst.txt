@@ -1,0 +1,105 @@
+.. currentModule:: Autograph
+
+Edit Params
+===========
+
+Accessing params
+----------------
+
+Params are accessible on their parenting using :meth:`Autograph.Effect.param(uniqueName)` or :meth:`Autograph.Param.param(uniqueName)` functions.
+Some commonly used params are directly declared as attributes on their parent object, with the attribute's name being the same as the :meth:`Autograph.Param.getUniqueName()`
+
+For example, to access the ``mask`` of a :class:`Layer2D<Autograph.Layer2D>`:
+
+.. code-block::
+
+	print(layer.mask.getDisplayName())
+
+
+Some parameters however are not available as class attributes because they are less frequently used. You can find out the unique-name of a :class:`Param<Autograph.Param>` in 2 ways:
+
+In the UI, hover the mouse on the param to reveal its tooltip indicating the *Python script-name*
+
+.. figure:: img/paramTooltip.jpeg
+    :width: 300
+    :align: center
+
+
+From the Python Panel console in the UI, you can loop over all params in an :class:`Effect<Autograph.Effect>` ,e.g:
+
+
+ .. code-block::
+
+ 	layer=Autograph.Layer2D()
+ 	for p in layer.getParams():
+ 		print(p.getUniqueName())
+
+
+
+Setting a Param value
+----------------------
+
+
+Most parameters in the UI inherit :class:`DoubleParamBase<Autograph.DoubleParamBase>`, :class:`DoubleParam2DBase<Autograph.DoubleParam2DBase>`, :class:`DoubleParam3DBase<Autograph.DoubleParam3DBase>`, :class:`DoubleParam4DBase<Autograph.DoubleParam4DBase>`, :class:`BoolParamBase<Autograph.BoolParamBase>` or :class:`StringParamBase<Autograph.StringParamBase>`.
+
+Each of these class internally store a value that can be set/get with :meth:`Autograph.DoubleParamBase.setValue` :meth:`Autograph.DoubleParamBase.getValue`. The same method can also be used to set keyframes.
+
+For a more in-depth manipulation of the keyframes, the animation :class:`Curve<Autograph.Curve>` can be accessed with :meth:`Autograph.DoubleParamBase.getCurve`. 
+
+.. note::
+
+	When calling :meth:`Autograph.DoubleParamBase.getValue`, the returned value will properly apply all generator and modifiers. If you wish to get the internal animation curve value without applying generator/modifiers, directly use :meth:`Autograph.Curve.getValueAtTime`
+
+
+Setting a Param generator
+--------------------------
+
+
+A :class:`Param<Autograph.Param` generator can be set or unset with :meth:`Autograph.Param.setGeneratorEffect` and takes in input an :class:`Effect<Autograph.Effect>` object.
+
+There are 2 use-cases to set a generator:
+
+1) Set the generator to point to a :class:`ProjectItem<Autograph.ProjectItem>`
+
+.. code-block::
+
+	project=Autograph.app.getActiveProject()
+	myFootage=project.importFootage('/media/myfiles/video.mov')
+
+	layer.source.setGeneratorEffect(myFootage)
+
+	# which is similar to 
+	layer.source.setGeneratorEffect(myFootage.createEffectSharedInstance())	
+
+
+2) Create a new procedural generator
+
+.. code-block::
+
+	circle=Autograph.Effect('Autograph.CircleGenerator')
+	layer.source.setGeneratorEffect(circle)
+
+
+Adding modifiers
+----------------
+
+Modifiers are simply added on the :class:`ModifierList` returned by :meth:`Param.getModifiersList`.
+
+.. code-block::
+
+	blur=Autograph.Effect('Autograph.BlurModifier')
+	layer.source.getModifiersList().addModifier(blur)
+
+
+.. note::
+
+	The list of available generators/modifiers `classID` can be queried by :meth:`Application.getGeneratorsClassID` and :meth:`Application.getModifiersClassID`.
+
+
+	
+
+
+
+
+
+

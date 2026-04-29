@@ -1,0 +1,78 @@
+.. currentModule:: Autograph
+
+Edit a Composition
+==================
+
+Accessing a Composition
+------------------------
+
+A :class:`Composition` can be retrieved from a :class:`ProjectItem` with :meth:`ProjectItem.getMainEffectInstance()`
+
+Change Composition parameters
+------------------------------
+
+Since the :class:`Composition<Autograph.Composition>` class inherits :class:`Effect<Autograph.Effect>` , all its :class:`Param<Autograph.Param>` can be accessed with :meth:`Autograph.Effect.param(uniqueName)` or :meth:`Autograph.Effect.getParams()` . 
+However, some commonly used Params have a dedicated API to make it easier:
+
+.. code-block::
+
+	comp.setFormat(width, height, pixelAspectRatio)
+	comp.framerate = 60.0
+	# 300 frames at 60fps is 5 seconds
+	comp.duration = 300
+
+
+
+Manage layers
+--------------
+
+:class:`Composition<Autograph.Composition>` contains is a list-like API for managing layers:
+
+.. code-block::
+
+	comp.addLayer(Autograph.Layer2D())
+	allLayers = comp.getLayers()
+	for i in range(len(allLayers)):
+		print("Layer %i is %r" % (i, allLayers[i]))
+
+
+To create a layer with a project item as source, use the dedicated constructor:
+
+
+.. code-block::
+
+	project=Autograph.app.getActiveProject()
+	myFootage=project.importFootage('/media/myfiles/video.mov')
+
+	...
+
+	comp.addLayer(Autograph.Layer2D(myFootage))
+
+
+Under the hood, this constructor assigns an :class:`Effect<Autograph.Effect>` returned from :meth:`Autograph.ProjectItem.createEffectSharedInstance()` to the generator slot of the source param of the layer. Here is the equivalent:
+
+.. code-block::
+
+	project=Autograph.app.getActiveProject()
+	myFootage=project.importFootage('/media/myfiles/video.mov')
+
+	layer=Autograph.Layer2D()
+
+	# Note that we create a shared copy of the effect so that the user can unshare parameters if needed
+	layer.source.setGeneratorEffect(myFootage.createEffectSharedInstance())
+
+	comp.addLayer(layer)
+
+
+
+Setting the layer transform
+----------------------------
+
+The layer transform parameters can be accessed with the :attr:`Layer2D.transform` attribute or with the generic :meth:`Effect.param` accessor.
+
+.. code-block::
+	
+	layer.transform.position.setValues([300.,0.])
+	
+
+

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage a Project &mdash; Autograph 2026.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=c8c3da16"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/dark_mode_js/default_dark.js?v=fd565c74"></script>
+        <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Edit a Composition" href="editComposition.html" />
+    <link rel="prev" title="Architecture Overview" href="architecture.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Autograph
+          </a>
+              <div class="version">
+                2026.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="startupscripts.html">Start-up scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture Overview</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Manage a Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-project">Creating a project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#managing-project-items">Managing project items</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-an-empty-composition">Creating an empty Composition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reacting-to-project-events">Reacting to project events</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="editComposition.html">Edit a Composition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="editParams.html">Edit Params</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rendering.html">Creating Renders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="customPanels.html">Creating custom Panels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2DPaths.html">Using 2D Paths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timelinePanel.html">Interacting with the Timeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Autograph</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Guide</a></li>
+      <li class="breadcrumb-item active">Manage a Project</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Guide/importItems.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="manage-a-project">
+<span id="importitems"></span><h1>Manage a Project<a class="headerlink" href="#manage-a-project" title="Link to this heading"></a></h1>
+<section id="creating-a-project">
+<h2>Creating a project<a class="headerlink" href="#creating-a-project" title="Link to this heading"></a></h2>
+<p>Use <a class="reference internal" href="../reference.html#Autograph.Application.createProject" title="Autograph.Application.createProject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Application.createProject()</span></code></a> to create a new empty <a class="reference internal" href="../reference.html#Autograph.Project" title="Autograph.Project"><code class="xref py py-class docutils literal notranslate"><span class="pre">Project</span></code></a> .
+A <code class="docutils literal notranslate"><span class="pre">background</span></code> project is useful to perform background rendering without any user interface.</p>
+<p>Once created, the project is in an unsaved state. You can save it with <a class="reference internal" href="../reference.html#Autograph.Project.save" title="Autograph.Project.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Project.save()</span></code></a> .
+To reset the project to a default empty state, call <a class="reference internal" href="../reference.html#Autograph.Project.close" title="Autograph.Project.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Project.close()</span></code></a> .
+You can load a project state from an Autograph project file (.agp), call <a class="reference internal" href="../reference.html#Autograph.Project.open" title="Autograph.Project.open"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Project.open()</span></code></a> .</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since the <a class="reference internal" href="../reference.html#Autograph.Application" title="Autograph.Application"><code class="xref py py-class docutils literal notranslate"><span class="pre">Application</span></code></a> can have multiple projects opened concurrently, you may find useful to retrieve the project actively focused by the user with <a class="reference internal" href="../reference.html#Autograph.Application.getActiveProject" title="Autograph.Application.getActiveProject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Application.getActiveProject()</span></code></a> .</p>
+</div>
+</section>
+<section id="managing-project-items">
+<h2>Managing project items<a class="headerlink" href="#managing-project-items" title="Link to this heading"></a></h2>
+<p>Project Items are any elements that you can find in the Project panel in the UI, such as:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Media reader</p></li>
+<li><p>USD asset reader</p></li>
+<li><p>CSV reader</p></li>
+<li><p>Folder</p></li>
+<li><p>3D Scene</p></li>
+<li><p>Composition</p></li>
+</ul>
+</div></blockquote>
+<p>The <a class="reference internal" href="../reference.html#Autograph.Project" title="Autograph.Project"><code class="xref py py-class docutils literal notranslate"><span class="pre">Project</span></code></a> class offer various functions to create these <a class="reference internal" href="../reference.html#Autograph.ProjectItem" title="Autograph.ProjectItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectItem</span></code></a> .
+For example, <code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Project.importFootage(filePath)()</span></code> can be used to create a media reader:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">project</span><span class="o">=</span><span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getActiveProject</span><span class="p">()</span>
+<span class="n">myFootage</span><span class="o">=</span><span class="n">project</span><span class="o">.</span><span class="n">importFootage</span><span class="p">(</span><span class="s1">&#39;/media/myfiles/video.mov&#39;</span><span class="p">)</span>
+<span class="n">myFootage</span><span class="o">.</span><span class="n">setDisplayName</span><span class="p">(</span><span class="s1">&#39;My Footage&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-an-empty-composition">
+<h2>Creating an empty Composition<a class="headerlink" href="#creating-an-empty-composition" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">project</span><span class="o">=</span><span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getActiveProject</span><span class="p">()</span>
+<span class="n">comp</span><span class="o">=</span><span class="n">project</span><span class="o">.</span><span class="n">createComposition</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="reacting-to-project-events">
+<h2>Reacting to project events<a class="headerlink" href="#reacting-to-project-events" title="Link to this heading"></a></h2>
+<p>You can register Python callable objects to react to the following events of the project:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="../reference.html#Autograph.Application.onProjectAboutToClose" title="Autograph.Application.onProjectAboutToClose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Application.onProjectAboutToClose()</span></code></a> : Signature must be: callback(project)</p></li>
+<li><p><a class="reference internal" href="../reference.html#Autograph.Application.onProjectAboutToLoad" title="Autograph.Application.onProjectAboutToLoad"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Application.onProjectAboutToLoad()</span></code></a> : Signature must be: callback(project, filePath)</p></li>
+<li><p><a class="reference internal" href="../reference.html#Autograph.Application.onProjectLoaded" title="Autograph.Application.onProjectLoaded"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Application.onProjectLoaded()</span></code></a> : : Signature must be: callback(project)</p></li>
+<li><p><a class="reference internal" href="../reference.html#Autograph.Application.onProjectCreated" title="Autograph.Application.onProjectCreated"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Application.onProjectCreated()</span></code></a> : : Signature must be: callback(project)</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="architecture.html" class="btn btn-neutral float-left" title="Architecture Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="editComposition.html" class="btn btn-neutral float-right" title="Edit a Composition" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 Maxon Computer GmbH.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+.. _startupScripts:
+
+Start-up scripts
+================
+
+On start-up, Autograph executes Python scripts to setup the application. You can add more scripts to be executed in the Python scripts directory, which is located
+
+    * **On Windows**
+    
+        C:\\Users\\<user>\\Documents\\LeftAngle\\Autograph\\Python
+        
+    * **On macOS**
+    
+        ~/LeftAngle/Autograph/Python
+        
+Any script in this directory (not recursively) will be executed. In Addition, foreach sub-folder that contains a **init.py** file, the script will be executed.
+
+These initialization scripts are executed very early in the application, before the main project is created. This is useful to register classes (e.g: :meth:`Autograph.Application.registerPanelClass`) and other types.
+At this stage, since no :class:`Project<Autograph.Project>` is yet created, you can only register callbacks to be executed later, such as :meth:`Autograph.Application.onProjectCreated` .
+
+Command-line scripts
+--------------------
+
+Autograph can also execute Python scripts provided from the command-line with the ``--exe_script <script>`` switch (which can be provided multiple times). 
+The scripts provided on the command-line are executed after creating (or loading if a project file was supplied on the command-line) the main project. This is useful to tweak the project before starting a render.
+
+Example
+--------
+
+.. _initExample:
+
+init.py
+-------
+
+.. literalinclude:: init.py

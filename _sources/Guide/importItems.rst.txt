@@ -1,0 +1,68 @@
+.. _importItems:
+
+Manage a Project
+================
+
+
+Creating a project
+------------------
+
+Use :meth:`Autograph.Application.createProject` to create a new empty :class:`Project<Autograph.Project>` .
+A ``background`` project is useful to perform background rendering without any user interface.
+
+Once created, the project is in an unsaved state. You can save it with :meth:`Autograph.Project.save` . 
+To reset the project to a default empty state, call :meth:`Autograph.Project.close` .
+You can load a project state from an Autograph project file (.agp), call :meth:`Autograph.Project.open` .
+
+.. note::
+
+	Since the :class:`Application<Autograph.Application>` can have multiple projects opened concurrently, you may find useful to retrieve the project actively focused by the user with :meth:`Autograph.Application.getActiveProject()` .
+
+
+Managing project items
+----------------------
+
+
+Project Items are any elements that you can find in the Project panel in the UI, such as:
+
+	* Media reader
+	* USD asset reader
+	* CSV reader
+	* Folder
+	* 3D Scene
+	* Composition
+
+The :class:`Project<Autograph.Project>` class offer various functions to create these :class:`ProjectItem<Autograph.ProjectItem>` .
+For example, :meth:`Autograph.Project.importFootage(filePath)` can be used to create a media reader:
+
+.. code-block::
+
+	project=Autograph.app.getActiveProject()
+	myFootage=project.importFootage('/media/myfiles/video.mov')
+	myFootage.setDisplayName('My Footage')
+
+
+Creating an empty Composition
+------------------------------
+
+.. code-block::
+
+	project=Autograph.app.getActiveProject()
+	comp=project.createComposition()
+
+
+
+Reacting to project events
+--------------------------
+
+You can register Python callable objects to react to the following events of the project:
+
+	 * :meth:`Autograph.Application.onProjectAboutToClose` : Signature must be: callback(project)
+
+	 * :meth:`Autograph.Application.onProjectAboutToLoad` : Signature must be: callback(project, filePath)
+
+	 * :meth:`Autograph.Application.onProjectLoaded` : : Signature must be: callback(project)
+
+	 * :meth:`Autograph.Application.onProjectCreated` : : Signature must be: callback(project)
+
+

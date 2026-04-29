@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creating custom Panels &mdash; Autograph 2026.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=c8c3da16"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/dark_mode_js/default_dark.js?v=fd565c74"></script>
+        <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Using 2D Paths" href="2DPaths.html" />
+    <link rel="prev" title="Creating Renders" href="rendering.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Autograph
+          </a>
+              <div class="version">
+                2026.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="startupscripts.html">Start-up scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importItems.html">Manage a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="editComposition.html">Edit a Composition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="editParams.html">Edit Params</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rendering.html">Creating Renders</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Creating custom Panels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#register-the-panel-class">Register the Panel class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-serialization">Data serialization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="2DPaths.html">Using 2D Paths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timelinePanel.html">Interacting with the Timeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Autograph</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Guide</a></li>
+      <li class="breadcrumb-item active">Creating custom Panels</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Guide/customPanels.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="creating-custom-panels">
+<span id="custompanels"></span><h1>Creating custom Panels<a class="headerlink" href="#creating-custom-panels" title="Link to this heading"></a></h1>
+<p>New Panel class must inherit <a class="reference internal" href="../reference.html#Autograph.CustomPanel" title="Autograph.CustomPanel"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomPanel</span></code></a> and implement the following virtual functions:</p>
+<p><a class="reference internal" href="../reference.html#Autograph.CustomPanel.createMainItem" title="Autograph.CustomPanel.createMainItem"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CustomPanel.createMainItem()</span></code></a> : Must be implemented to return a <a class="reference external" href="https://doc.qt.io/qtforpython/PySide6/QtQuick/QQuickItem.html">QQuickItem</a> object.</p>
+<p>A typical example would be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="c1"># Create a QQmlComponent from the QML file</span>
+   <span class="n">comp</span> <span class="o">=</span> <span class="n">QQmlComponent</span><span class="p">(</span><span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getQmlEngine</span><span class="p">(),</span> <span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getPythonScriptsDirPath</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/MyPanel.qml&#39;</span><span class="p">)</span>
+   <span class="c1"># Create an instance of the compoonent, passing it a QObject as property to interact with our Python properties</span>
+   <span class="k">return</span> <span class="n">comp</span><span class="o">.</span><span class="n">createWithInitialProperties</span><span class="p">({</span><span class="s2">&quot;panel&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="p">})</span>
+
+<span class="n">In</span> <span class="n">this</span> <span class="n">example</span><span class="p">,</span> <span class="n">the</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">custom</span> <span class="n">QObject</span><span class="o">-</span><span class="n">derived</span> <span class="k">class</span><span class="w"> </span><span class="nc">which</span> <span class="n">contains</span> <span class="n">Qt</span> <span class="n">properties</span> <span class="n">necessary</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">Qml</span> <span class="n">code</span><span class="p">:</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># A custom QObject to hold properties that we need to interact with QML</span>
+<span class="c1"># Unfortunately, you cannot (yet) inherit both from QObject and Autograph.CustomPanel</span>
+<span class="c1"># so we encapsulate every Property/Signal in a separate class add a member to the custom panel class</span>
+<span class="c1"># See https://qmlbook.github.io/ch20-python/python.html for basics of how to use Qt for Python</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MyPanelQObject</span><span class="p">(</span><span class="n">QObject</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="o">=</span><span class="mf">5.4</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getValue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">!=</span> <span class="n">v</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">valueChanged</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)</span>
+    <span class="n">valueChanged</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">getValue</span><span class="p">,</span> <span class="n">setValue</span><span class="p">,</span> <span class="n">notify</span><span class="o">=</span><span class="n">valueChanged</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then in QML we can just do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">QtQuick</span> <span class="mf">2.14</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">QtQuick.Controls</span> <span class="mf">2.14</span>
+
+<span class="n">Control</span> <span class="p">{</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="n">root</span>
+
+        <span class="o">//</span> <span class="n">The</span> <span class="n">QObject</span> <span class="nb">set</span> <span class="kn">from</span><span class="w"> </span><span class="nn">Python</span> <span class="n">containing</span> <span class="n">our</span> <span class="n">properties</span>
+        <span class="n">required</span> <span class="nb">property</span> <span class="n">QtObject</span> <span class="n">panel</span>
+
+        <span class="n">Text</span> <span class="p">{</span>
+                <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;Python property value is %1&quot;</span><span class="o">.</span><span class="n">arg</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In QML, you can use any item available in Qt. See the <a class="reference external" href="https://doc.qt.io/qt-5/qmlapplications.html#what-is-qml">documentation for more information and examples</a></p>
+<section id="register-the-panel-class">
+<h2>Register the Panel class<a class="headerlink" href="#register-the-panel-class" title="Link to this heading"></a></h2>
+<p>To be available in the panels’s menu, you must first register the class in so Autograph knows about it.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/panelMenu.jpeg"><img alt="../_images/panelMenu.jpeg" src="../_images/panelMenu.jpeg" style="width: 300px;" /></a>
+</figure>
+<p>This can be done with <a class="reference internal" href="../reference.html#Autograph.Application.registerPanelClass" title="Autograph.Application.registerPanelClass"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Application.registerPanelClass()</span></code></a> whith a factory callable, e.g:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Factory function for MyPanel</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">makeMyPanel</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">MyPanel</span><span class="p">()</span>
+
+<span class="c1"># Register the panel class to Autograph</span>
+<span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">registerPanelClass</span><span class="p">(</span><span class="n">makeMyPanel</span><span class="p">,</span> <span class="s1">&#39;com.mycompany.MyPanel&#39;</span><span class="p">,</span> <span class="s1">&#39;My Panel&#39;</span><span class="p">,</span> <span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getPythonScriptsDirPath</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/MyPanelIcon.svg&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">isSingleton</span></code> parameter of the <a class="reference internal" href="../reference.html#Autograph.Application.registerPanelClass" title="Autograph.Application.registerPanelClass"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Application.registerPanelClass()</span></code></a> function is useful if your Panel class should be creatable only once in the Project. Non singletons Panels are quite rare and usually involve the user selecting which panel to use, such as the <a class="reference internal" href="../reference.html#Autograph.TimelinePanel" title="Autograph.TimelinePanel"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimelinePanel</span></code></a> or <a class="reference internal" href="../reference.html#Autograph.ViewerPanel" title="Autograph.ViewerPanel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ViewerPanel</span></code></a>.</p>
+</section>
+<section id="data-serialization">
+<h2>Data serialization<a class="headerlink" href="#data-serialization" title="Link to this heading"></a></h2>
+<p>A Panel can save data either in the current user project or in the UI workspace or in custom <a class="reference internal" href="../reference.html#Autograph.Settings" title="Autograph.Settings"><code class="xref py py-class docutils literal notranslate"><span class="pre">Settings</span></code></a> (which are saved in dedicated JSON files).</p>
+<p>The workspace stores some state of the panels such as the way the UI is split. It does not save any project-related informations. For example, the workspace may remember a panel size or that it was maximized. However, for example, the <a class="reference internal" href="../reference.html#Autograph.ViewerPanel" title="Autograph.ViewerPanel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ViewerPanel</span></code></a> gain/gamma controls are saved in the project instead as they are specific to a user project.</p>
+<p>Serialization from Python is based on 2 functions: a save function that must return a <code class="docutils literal notranslate"><span class="pre">dict</span></code> and a load function that takes a previously saved <code class="docutils literal notranslate"><span class="pre">dict</span></code> and must restore its state from it.</p>
+<p>To save in the Workspace, re-implement <a class="reference internal" href="../reference.html#Autograph.CustomPanel.saveInWorkspace" title="Autograph.CustomPanel.saveInWorkspace"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CustomPanel.saveInWorkspace()</span></code></a> <a class="reference internal" href="../reference.html#Autograph.CustomPanel.loadFromWorkspace" title="Autograph.CustomPanel.loadFromWorkspace"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CustomPanel.loadFromWorkspace()</span></code></a>.</p>
+<p>To save in the user Project, re-implement <a class="reference internal" href="../reference.html#Autograph.CustomPanel.saveInProject" title="Autograph.CustomPanel.saveInProject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CustomPanel.saveInProject()</span></code></a> <a class="reference internal" href="../reference.html#Autograph.CustomPanel.loadFromProject" title="Autograph.CustomPanel.loadFromProject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CustomPanel.loadFromProject()</span></code></a></p>
+<p>To save in a custom <a class="reference internal" href="../reference.html#Autograph.Settings" title="Autograph.Settings"><code class="xref py py-class docutils literal notranslate"><span class="pre">Settings</span></code></a> class, derive from it and implement <a class="reference internal" href="../reference.html#Autograph.Settings.save" title="Autograph.Settings.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Settings.save()</span></code></a> and <a class="reference internal" href="../reference.html#Autograph.Settings.load" title="Autograph.Settings.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Settings.load()</span></code></a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="k">class</span><span class="w"> </span><span class="nc">MySettings</span><span class="p">(</span><span class="n">Autograph</span><span class="o">.</span><span class="n">Settings</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="mf">2.</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;MyValue&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">}</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;MyValue&#39;</span><span class="p">]</span>
+
+<span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">registerAndLoadSettings</span><span class="p">(</span><span class="n">MySettings</span><span class="p">(),</span> <span class="s1">&#39;My Settings&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rendering.html" class="btn btn-neutral float-left" title="Creating Renders" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="2DPaths.html" class="btn btn-neutral float-right" title="Using 2D Paths" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 Maxon Computer GmbH.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

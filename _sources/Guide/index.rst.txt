@@ -1,0 +1,19 @@
+.. _guide_index:
+
+Developer Guide
+================
+
+.. toctree::
+    :maxdepth: 1
+    
+    startupscripts
+    architecture
+    importItems
+    editComposition
+    editParams
+    rendering
+    customPanels
+    2DPaths
+    timelinePanel
+    
+    

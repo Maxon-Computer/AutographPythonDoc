@@ -1,0 +1,69 @@
+.. _architecture:
+
+Architecture Overview
+=====================
+
+:class:`Application<Autograph.Application>`
+-------------------------------------------
+
+When the Autograph process is created, a single instance of the :class:`Application<Autograph.Application>` class is created and accessible with the :attr:`Autograph.app` attribute.
+
+The :class:`Application<Autograph.Application>` handles all *application-wide* information about available classes, environment and also settings.
+It is responsible to create one or multiple :class:`Project<Autograph.Project>` instance(s) which can run in GUI mode or in the background.
+
+
+:class:`Project<Autograph.Project>`
+------------------------------------
+
+The :class:`Project<Autograph.Project>` is the main class containing all data related to a single project in Autograph. This is the class on which you will find project-wide functions and get access to any :class:`ProjectItem<Autograph.ProjectItem>`.
+
+.. note::
+
+	Since the :class:`Application<Autograph.Application>` can have multiple projects opened concurrently, you may find useful to retrieve the project actively focused by the user with :meth:`Autograph.Application.getActiveProject()` .
+
+:class:`ProjectItem<Autograph.ProjectItem>`
+--------------------------------------------
+
+Represents any item in the Project Panel. A :class:`ProjectItem<Autograph.ProjectItem>` can contain an :class:`Effect<Autograph.Effect>`, which can be used as a generator (see :meth:`Autograph.Param.setGeneratorEffect`) on a :class:`Param<Autograph.param>`. 
+
+
+:class:`Effect<Autograph.Effect>`
+------------------------------------
+
+
+A very generic base-class for anything that contains a set of :class:`Param<Autograph.Param>` . Generator effect can be set as generator on a :class:`Param<Autograph.Param>` with :meth:`Autograph.Param.setGeneratorEffect` . Modifier effect can be added in the :class:`ModifierList<Autograph.ModifierList>` of a :class:`Param<Autograph.Param>` using :meth:`Autograph.Param.getModifiersList` . 
+Generators and Modifiers can be created using the constructore taking a `classID` string. The `classID` must be one of the identifiers returned by :meth:`Autograph.Application.getGeneratorsClassID` or :meth:`Autograph.Application.getModifiersClassID` . 
+
+:class:`Param<Autograph.Param>`
+------------------------------------
+
+An abstract base-class for any parameter on an :class:`Effect<Autograph.Effect>` . Any parameter that you can manipulate in the timeline or the properties panel inherits this class. 
+Some Param classes are responsible to store a value (number :class:`DoubleParamBase<Autograph.DoubleParamBase>`, string :class:`StringParamBase<Autograph.StringParamBase>`, complex objects such as :class:`Path2DParam<Autograph.Path2DParam>` ...) and can optionnally give the user an interface to interact with. Some other Param classes are purely meant for the UI and do not store any value. Some Param classes can have `child` Params, such as :class:`Transform2DParam<Autograph.Transform2DParam>`.
+
+:class:`Composition<Autograph.Composition>`
+---------------------------------------------
+
+A :class:`ProjectItem<Autograph.ProjectItem>` can contain a :class:`Composition<Autograph.Composition>`. To create a new :class:`Composition<Autograph.Composition>` in the project, use :meth:`Autograph.Project.createComposition()` .
+The :class:`Composition<Autograph.Composition>` contains a list of :class:`Layer<Autograph.LayerBase>`, stored from bottom to top (i.e: in reverse order of the UI).
+
+:class:`Layer<Autograph.LayerBase>`
+-----------------------------------
+
+Each :class:`LayerBase<Autograph.LayerBase>` class (and its derived classes :class:`Layer2D<Autograph.Layer2D>` , :class:`Layer3D<Autograph.Layer3D>` , :class:`CameraLayer<Autograph.CameraLayer>` , :class:`LightLayer<Autograph.LightLayer>`) is an :class:`Effect<Autograph.Effect>` class and thus contains a set of :class:`Param<Autograph.Param>` that the user can control.
+
+:class:`Panel<Autograph.Panel>`
+------------------------------------
+
+Panels are the UI blocks that make up the window workspace, such as the :class:`TimelinePanel<Autograph.TimelinePanel>` , :class:`PropertiesPanel<Autograph.PropertiesPanel>` , :class:`ViewerPanel<Autograph.ViewerPanel>` etc....
+
+
+:class:`RenderManager<Autograph.RenderManager>`
+-------------------------------------------------
+
+This object is only accessible through :meth:`Autograph.Project.getRenderManager()` and controls anything related to the render queue and is responsible to start renders.
+
+
+
+
+
+

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Params &mdash; Autograph 2026.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
+      <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=c8c3da16"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/dark_mode_js/default_dark.js?v=fd565c74"></script>
+        <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Creating Renders" href="rendering.html" />
+    <link rel="prev" title="Edit a Composition" href="editComposition.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Autograph
+          </a>
+              <div class="version">
+                2026.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="startupscripts.html">Start-up scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importItems.html">Manage a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="editComposition.html">Edit a Composition</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Edit Params</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#accessing-params">Accessing params</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-a-param-value">Setting a Param value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-a-param-generator">Setting a Param generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-modifiers">Adding modifiers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rendering.html">Creating Renders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="customPanels.html">Creating custom Panels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2DPaths.html">Using 2D Paths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timelinePanel.html">Interacting with the Timeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Autograph</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Guide</a></li>
+      <li class="breadcrumb-item active">Edit Params</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Guide/editParams.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="edit-params">
+<h1>Edit Params<a class="headerlink" href="#edit-params" title="Link to this heading"></a></h1>
+<section id="accessing-params">
+<h2>Accessing params<a class="headerlink" href="#accessing-params" title="Link to this heading"></a></h2>
+<p>Params are accessible on their parenting using <code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Effect.param(uniqueName)()</span></code> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Param.param(uniqueName)()</span></code> functions.
+Some commonly used params are directly declared as attributes on their parent object, with the attribute’s name being the same as the <a class="reference internal" href="../reference.html#Autograph.Param.getUniqueName" title="Autograph.Param.getUniqueName"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Param.getUniqueName()</span></code></a></p>
+<p>For example, to access the <code class="docutils literal notranslate"><span class="pre">mask</span></code> of a <a class="reference internal" href="../reference.html#Autograph.Layer2D" title="Autograph.Layer2D"><code class="xref py py-class docutils literal notranslate"><span class="pre">Layer2D</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">getDisplayName</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Some parameters however are not available as class attributes because they are less frequently used. You can find out the unique-name of a <a class="reference internal" href="../reference.html#Autograph.Param" title="Autograph.Param"><code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code></a> in 2 ways:</p>
+<p>In the UI, hover the mouse on the param to reveal its tooltip indicating the <em>Python script-name</em></p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/paramTooltip.jpeg"><img alt="../_images/paramTooltip.jpeg" src="../_images/paramTooltip.jpeg" style="width: 300px;" /></a>
+</figure>
+<p>From the Python Panel console in the UI, you can loop over all params in an <a class="reference internal" href="../reference.html#Autograph.Effect" title="Autograph.Effect"><code class="xref py py-class docutils literal notranslate"><span class="pre">Effect</span></code></a> ,e.g:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">layer</span><span class="o">=</span><span class="n">Autograph</span><span class="o">.</span><span class="n">Layer2D</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">layer</span><span class="o">.</span><span class="n">getParams</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">getUniqueName</span><span class="p">())</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="setting-a-param-value">
+<h2>Setting a Param value<a class="headerlink" href="#setting-a-param-value" title="Link to this heading"></a></h2>
+<p>Most parameters in the UI inherit <a class="reference internal" href="../reference.html#Autograph.DoubleParamBase" title="Autograph.DoubleParamBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DoubleParamBase</span></code></a>, <a class="reference internal" href="../reference.html#Autograph.DoubleParam2DBase" title="Autograph.DoubleParam2DBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DoubleParam2DBase</span></code></a>, <a class="reference internal" href="../reference.html#Autograph.DoubleParam3DBase" title="Autograph.DoubleParam3DBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DoubleParam3DBase</span></code></a>, <a class="reference internal" href="../reference.html#Autograph.DoubleParam4DBase" title="Autograph.DoubleParam4DBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">DoubleParam4DBase</span></code></a>, <a class="reference internal" href="../reference.html#Autograph.BoolParamBase" title="Autograph.BoolParamBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">BoolParamBase</span></code></a> or <a class="reference internal" href="../reference.html#Autograph.StringParamBase" title="Autograph.StringParamBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">StringParamBase</span></code></a>.</p>
+<p>Each of these class internally store a value that can be set/get with <a class="reference internal" href="../reference.html#Autograph.DoubleParamBase.setValue" title="Autograph.DoubleParamBase.setValue"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.DoubleParamBase.setValue()</span></code></a> <a class="reference internal" href="../reference.html#Autograph.DoubleParamBase.getValue" title="Autograph.DoubleParamBase.getValue"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.DoubleParamBase.getValue()</span></code></a>. The same method can also be used to set keyframes.</p>
+<p>For a more in-depth manipulation of the keyframes, the animation <a class="reference internal" href="../reference.html#Autograph.Curve" title="Autograph.Curve"><code class="xref py py-class docutils literal notranslate"><span class="pre">Curve</span></code></a> can be accessed with <a class="reference internal" href="../reference.html#Autograph.DoubleParamBase.getCurve" title="Autograph.DoubleParamBase.getCurve"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.DoubleParamBase.getCurve()</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When calling <a class="reference internal" href="../reference.html#Autograph.DoubleParamBase.getValue" title="Autograph.DoubleParamBase.getValue"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.DoubleParamBase.getValue()</span></code></a>, the returned value will properly apply all generator and modifiers. If you wish to get the internal animation curve value without applying generator/modifiers, directly use <a class="reference internal" href="../reference.html#Autograph.Curve.getValueAtTime" title="Autograph.Curve.getValueAtTime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Curve.getValueAtTime()</span></code></a></p>
+</div>
+</section>
+<section id="setting-a-param-generator">
+<h2>Setting a Param generator<a class="headerlink" href="#setting-a-param-generator" title="Link to this heading"></a></h2>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Param&lt;Autograph.Param</span></code> generator can be set or unset with <a class="reference internal" href="../reference.html#Autograph.Param.setGeneratorEffect" title="Autograph.Param.setGeneratorEffect"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Param.setGeneratorEffect()</span></code></a> and takes in input an <a class="reference internal" href="../reference.html#Autograph.Effect" title="Autograph.Effect"><code class="xref py py-class docutils literal notranslate"><span class="pre">Effect</span></code></a> object.</p>
+<p>There are 2 use-cases to set a generator:</p>
+<ol class="arabic simple">
+<li><p>Set the generator to point to a <a class="reference internal" href="../reference.html#Autograph.ProjectItem" title="Autograph.ProjectItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectItem</span></code></a></p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">project</span><span class="o">=</span><span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getActiveProject</span><span class="p">()</span>
+<span class="n">myFootage</span><span class="o">=</span><span class="n">project</span><span class="o">.</span><span class="n">importFootage</span><span class="p">(</span><span class="s1">&#39;/media/myfiles/video.mov&#39;</span><span class="p">)</span>
+
+<span class="n">layer</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">setGeneratorEffect</span><span class="p">(</span><span class="n">myFootage</span><span class="p">)</span>
+
+<span class="c1"># which is similar to</span>
+<span class="n">layer</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">setGeneratorEffect</span><span class="p">(</span><span class="n">myFootage</span><span class="o">.</span><span class="n">createEffectSharedInstance</span><span class="p">())</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Create a new procedural generator</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">circle</span><span class="o">=</span><span class="n">Autograph</span><span class="o">.</span><span class="n">Effect</span><span class="p">(</span><span class="s1">&#39;Autograph.CircleGenerator&#39;</span><span class="p">)</span>
+<span class="n">layer</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">setGeneratorEffect</span><span class="p">(</span><span class="n">circle</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="adding-modifiers">
+<h2>Adding modifiers<a class="headerlink" href="#adding-modifiers" title="Link to this heading"></a></h2>
+<p>Modifiers are simply added on the <a class="reference internal" href="../reference.html#Autograph.ModifierList" title="Autograph.ModifierList"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModifierList</span></code></a> returned by <a class="reference internal" href="../reference.html#Autograph.Param.getModifiersList" title="Autograph.Param.getModifiersList"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Param.getModifiersList()</span></code></a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">blur</span><span class="o">=</span><span class="n">Autograph</span><span class="o">.</span><span class="n">Effect</span><span class="p">(</span><span class="s1">&#39;Autograph.BlurModifier&#39;</span><span class="p">)</span>
+<span class="n">layer</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">getModifiersList</span><span class="p">()</span><span class="o">.</span><span class="n">addModifier</span><span class="p">(</span><span class="n">blur</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The list of available generators/modifiers <cite>classID</cite> can be queried by <a class="reference internal" href="../reference.html#Autograph.Application.getGeneratorsClassID" title="Autograph.Application.getGeneratorsClassID"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Application.getGeneratorsClassID()</span></code></a> and <a class="reference internal" href="../reference.html#Autograph.Application.getModifiersClassID" title="Autograph.Application.getModifiersClassID"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Application.getModifiersClassID()</span></code></a>.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="editComposition.html" class="btn btn-neutral float-left" title="Edit a Composition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rendering.html" class="btn btn-neutral float-right" title="Creating Renders" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 Maxon Computer GmbH.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

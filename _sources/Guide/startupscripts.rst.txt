@@ -11,7 +11,7 @@ On start-up, Autograph executes Python scripts to setup the application. You can
         
     * **On macOS**
     
-        ~/LeftAngle/Maxon/Python
+        ~/Maxon/Autograph/Python
         
 Any script in this directory (not recursively) will be executed. In Addition, foreach sub-folder that contains a **init.py** file, the script will be executed.
 

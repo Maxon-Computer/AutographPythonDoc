@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Start-up scripts &mdash; Autograph 2026.0.0 documentation</title>
+  <title>Start-up scripts &mdash; Autograph 2026.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
@@ -17,7 +17,7 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=c8c3da16"></script>
+        <script src="../_static/documentation_options.js?v=6cbb5e0f"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="../_static/dark_mode_js/default_dark.js?v=fd565c74"></script>
@@ -104,12 +104,12 @@
 <div><ul>
 <li><p><strong>On Windows</strong></p>
 <blockquote>
-<div><p>C:\Users\&lt;user&gt;\Documents\LeftAngle\Autograph\Python</p>
+<div><p>C:\Users\&lt;user&gt;\Documents\Maxon\Autograph\Python</p>
 </div></blockquote>
 </li>
 <li><p><strong>On macOS</strong></p>
 <blockquote>
-<div><p>~/LeftAngle/Autograph/Python</p>
+<div><p>~/LeftAngle/Maxon/Python</p>
 </div></blockquote>
 </li>
 </ul>
@@ -194,6 +194,37 @@ The scripts provided on the command-line are executed after creating (or loading
 
 <span class="c1"># Register the panel class to Autograph</span>
 <span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">registerPanelClass</span><span class="p">(</span><span class="n">makeMyPanel</span><span class="p">,</span> <span class="s2">&quot;com.leftangle.python.MyPanel&quot;</span><span class="p">,</span> <span class="s2">&quot;My Panel&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example requires MyPanel.qml to be next to init.py</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">QtQuick</span> <span class="mf">2.14</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">QtQuick.Controls</span> <span class="mf">2.14</span> <span class="k">as</span> <span class="n">QQC</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">QtQuick.Layouts</span> <span class="mf">1.14</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.leftangle.UICore</span> <span class="mf">1.0</span> <span class="k">as</span> <span class="n">UICore</span>
+
+<span class="n">QQC</span><span class="o">.</span><span class="n">Control</span> <span class="p">{</span>
+	<span class="nb">id</span><span class="p">:</span> <span class="n">root</span>
+	<span class="n">required</span> <span class="nb">property</span> <span class="n">QtObject</span> <span class="n">panel</span> 
+
+	<span class="n">ColumnLayout</span> <span class="p">{</span>
+		<span class="n">anchors</span><span class="o">.</span><span class="n">fill</span><span class="p">:</span> <span class="n">parent</span>	
+
+		<span class="n">UICore</span><span class="o">.</span><span class="n">Text</span> <span class="p">{</span>
+			<span class="n">text</span><span class="p">:</span> <span class="s2">&quot;My Python Panel&quot;</span>
+		<span class="p">}</span>
+		<span class="n">UICore</span><span class="o">.</span><span class="n">SpinBox</span> <span class="p">{</span>
+			<span class="n">value</span><span class="p">:</span> <span class="n">root</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">value</span>
+			<span class="n">onValueChanged</span><span class="p">:</span> <span class="n">root</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+		<span class="p">}</span>
+	<span class="p">}</span>	
+
+	<span class="n">Component</span><span class="o">.</span><span class="n">onCompleted</span><span class="p">:</span> <span class="p">{</span>
+		<span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Completed MyPanel qml, panel = &quot;</span> <span class="o">+</span> <span class="n">root</span><span class="o">.</span><span class="n">panel</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>

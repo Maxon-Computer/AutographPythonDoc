@@ -7,11 +7,11 @@ On start-up, Autograph executes Python scripts to setup the application. You can
 
     * **On Windows**
     
-        C:\\Users\\<user>\\Documents\\LeftAngle\\Autograph\\Python
+        C:\\Users\\<user>\\Documents\\Maxon\\Autograph\\Python
         
     * **On macOS**
     
-        ~/LeftAngle/Autograph/Python
+        ~/LeftAngle/Maxon/Python
         
 Any script in this directory (not recursively) will be executed. In Addition, foreach sub-folder that contains a **init.py** file, the script will be executed.
 
@@ -33,3 +33,8 @@ init.py
 -------
 
 .. literalinclude:: init.py
+
+.. note:: 
+    This example requires MyPanel.qml to be next to init.py  
+
+.. literalinclude:: MyPanel.qml

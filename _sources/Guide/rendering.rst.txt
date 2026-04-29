@@ -51,6 +51,15 @@ Let's see an example to setup a Quicktime ProRes render of a composition in Full
 	rm.startRenders(True)
 
 
+.. note::
+
+	The list of valid values for videoCodec, audioCodec and fileFormat is available in the user interface when hovering your mouse over the corresponding parameter
+
+.. figure:: img/renderPropertiesTooltip.jpeg
+    :width: 700
+    :align: center
+
+
 Reacting to render events
 -------------------------
 

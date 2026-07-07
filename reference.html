@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API Reference &mdash; Autograph 2026.0.1 documentation</title>
+  <title>API Reference &mdash; Autograph 2026.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/dark_mode_css/general.css?v=c0a7eb24" />
@@ -17,7 +17,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=6cbb5e0f"></script>
+        <script src="_static/documentation_options.js?v=b916904f"></script>
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
         <script src="_static/dark_mode_js/default_dark.js?v=fd565c74"></script>
@@ -40,7 +40,7 @@
             Autograph
           </a>
               <div class="version">
-                2026.0
+                2026.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -202,6 +202,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#Autograph.CompRender"><code class="docutils literal notranslate"><span class="pre">CompRender</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Autograph.CompRender.cancelRender"><code class="docutils literal notranslate"><span class="pre">CompRender.cancelRender()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Autograph.CompRender.compNameOverride"><code class="docutils literal notranslate"><span class="pre">CompRender.compNameOverride</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Autograph.CompRender.composition"><code class="docutils literal notranslate"><span class="pre">CompRender.composition</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Autograph.CompRender.enabled"><code class="docutils literal notranslate"><span class="pre">CompRender.enabled</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Autograph.CompRender.exportDirectory"><code class="docutils literal notranslate"><span class="pre">CompRender.exportDirectory</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Autograph.CompRender.getComposition"><code class="docutils literal notranslate"><span class="pre">CompRender.getComposition()</span></code></a></li>
@@ -253,6 +254,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#Autograph.CompRenderInstance.None"><code class="docutils literal notranslate"><span class="pre">CompRenderInstance.None</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Autograph.CompRenderInstance.Upper"><code class="docutils literal notranslate"><span class="pre">CompRenderInstance.Upper</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Autograph.CompRenderInstance.cancelRender"><code class="docutils literal notranslate"><span class="pre">CompRenderInstance.cancelRender()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Autograph.CompRenderInstance.compositionInstance"><code class="docutils literal notranslate"><span class="pre">CompRenderInstance.compositionInstance</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Autograph.CompRenderInstance.continueOnError"><code class="docutils literal notranslate"><span class="pre">CompRenderInstance.continueOnError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Autograph.CompRenderInstance.directorySuffix"><code class="docutils literal notranslate"><span class="pre">CompRenderInstance.directorySuffix</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Autograph.CompRenderInstance.downscaleLevel"><code class="docutils literal notranslate"><span class="pre">CompRenderInstance.downscaleLevel</span></code></a></li>
@@ -1992,6 +1994,12 @@ gives access to the list of menu <a class="reference internal" href="#Autograph.
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="Autograph.CompRender.composition">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">composition</span></span><a class="headerlink" href="#Autograph.CompRender.composition" title="Link to this definition"></a></dt>
+<dd><p>Set the <a class="reference internal" href="#Autograph.Composition" title="Autograph.Composition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Composition</span></code></a> to render. Note that if you want to modify custom <a class="reference internal" href="#Autograph.Param" title="Autograph.Param"><code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code></a> of the Composition, you should do so on the <a class="reference internal" href="#Autograph.CompRenderInstance.compositionInstance" title="Autograph.CompRenderInstance.compositionInstance"><code class="xref py py-attr docutils literal notranslate"><span class="pre">CompRenderInstance.compositionInstance</span></code></a> whic is a local instance shared with the instance passed to this functin, where parameters can be locally overrided specifically for this render.</p>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="Autograph.CompRender.enabled">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">enabled</span></span><a class="headerlink" href="#Autograph.CompRender.enabled" title="Link to this definition"></a></dt>
 <dd><p>class=`CompRender` when starting the render queue</p>
@@ -2011,7 +2019,7 @@ gives access to the list of menu <a class="reference internal" href="#Autograph.
 <dl class="py method">
 <dt class="sig sig-object py" id="Autograph.CompRender.getComposition">
 <span class="sig-name descname"><span class="pre">getComposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Autograph.CompRender" title="Autograph.CompRender"><span class="pre">Autograph.CompRender</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#Autograph.Composition" title="Autograph.Composition"><span class="pre">Autograph.Composition</span></a></span></span><a class="headerlink" href="#Autograph.CompRender.getComposition" title="Link to this definition"></a></dt>
-<dd><p>Returns the attached <a class="reference internal" href="#Autograph.Composition" title="Autograph.Composition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Composition</span></code></a></p>
+<dd><p>Returns the attached <a class="reference internal" href="#Autograph.Composition" title="Autograph.Composition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Composition</span></code></a>. Deprecated, use the composition property instead</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2085,7 +2093,7 @@ gives access to the list of menu <a class="reference internal" href="#Autograph.
 <dl class="py method">
 <dt class="sig sig-object py" id="Autograph.CompRender.setComposition">
 <span class="sig-name descname"><span class="pre">setComposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Autograph.CompRender" title="Autograph.CompRender"><span class="pre">Autograph.CompRender</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Autograph.Composition" title="Autograph.Composition"><span class="pre">Autograph.Composition</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#Autograph.CompRenderInstance.InterlaceMode.None" title="Autograph.CompRenderInstance.InterlaceMode.None"><span class="pre">None</span></a></span></span><a class="headerlink" href="#Autograph.CompRender.setComposition" title="Link to this definition"></a></dt>
-<dd><p>Set the <a class="reference internal" href="#Autograph.Composition" title="Autograph.Composition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Composition</span></code></a> to render</p>
+<dd><p>Set the <a class="reference internal" href="#Autograph.Composition" title="Autograph.Composition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Composition</span></code></a> to render. Deprecated, use the composition property instead</p>
 </dd></dl>
 
 </dd></dl>
@@ -2263,6 +2271,12 @@ gives access to the list of menu <a class="reference internal" href="#Autograph.
 <dt class="sig sig-object py" id="Autograph.CompRenderInstance.cancelRender">
 <span class="sig-name descname"><span class="pre">cancelRender</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#Autograph.CompRenderInstance" title="Autograph.CompRenderInstance"><span class="pre">Autograph.CompRenderInstance</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#Autograph.CompRenderInstance.None" title="Autograph.CompRenderInstance.None"><span class="pre">None</span></a></span></span><a class="headerlink" href="#Autograph.CompRenderInstance.cancelRender" title="Link to this definition"></a></dt>
 <dd><p>Cancel the render of all :class=`CompRenderFile` in the list</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Autograph.CompRenderInstance.compositionInstance">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compositionInstance</span></span><a class="headerlink" href="#Autograph.CompRenderInstance.compositionInstance" title="Link to this definition"></a></dt>
+<dd><p>Returns a local <a class="reference internal" href="#Autograph.Composition" title="Autograph.Composition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Composition</span></code></a> instance that is shared with the <a class="reference internal" href="#Autograph.Composition" title="Autograph.Composition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Composition</span></code></a> passed to the <a class="reference internal" href="#Autograph.CompRender" title="Autograph.CompRender"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompRender</span></code></a>. Note that they are 2 distincts <a class="reference internal" href="#Autograph.Composition" title="Autograph.Composition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Composition</span></code></a> instances, but internally share the same layers. This is used so that this local <a class="reference internal" href="#Autograph.Composition" title="Autograph.Composition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Composition</span></code></a> instance can have custom parameters specific for this render.</p>
 </dd></dl>
 
 <dl class="py property">

@@ -31,6 +31,9 @@ Let's see an example to setup a Quicktime ProRes render of a composition in Full
 	instance=Autograph.CompRenderInstance()
 	render.insertInstance(instance)
 
+	# Set the value of a custom parameter whose Script Name is "Row_Index" that was created on the Composition
+	instance.compositionInstance.param("Row_Index").setValue(2)
+
 	file=Autograph.CompRenderFile();
 	instance.insertFile(file)
 

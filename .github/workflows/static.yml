@@ -48,9 +48,12 @@ jobs:
           set -euo pipefail
           rm -rf _site && mkdir -p _site
 
-          git for-each-ref --format='%(refname:short)' refs/remotes/origin \
-            | grep -v '^origin/HEAD$' \
-            | sed 's|^origin/||' > branches.txt
+          # Match on the full refname: %(refname:short) abbreviates
+          # refs/remotes/origin/HEAD to plain "origin", which would slip
+          # past a short-name filter and become a phantom branch.
+          git for-each-ref --format='%(refname)' refs/remotes/origin \
+            | grep -v '^refs/remotes/origin/HEAD$' \
+            | sed 's|^refs/remotes/origin/||' > branches.txt
 
           while read -r branch; do
             if [ "$branch" = "main" ]; then dest="_site"; else dest="_site/$branch"; fi

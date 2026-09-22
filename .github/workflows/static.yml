@@ -1,10 +1,18 @@
-# Simple workflow for deploying static content to GitHub Pages
+# Deploy every documentation version (one per branch) to GitHub Pages.
+#   main           -> https://maxon-computer.github.io/AutographPythonDoc/
+#   <other branch> -> https://maxon-computer.github.io/AutographPythonDoc/<other branch>/
+#
+# GitHub Pages allows a single deployment per repository, so every run rebuilds
+# the whole site from all branches rather than updating one version in place.
 name: Deploy static content to Pages
 
 on:
-  # Runs on pushes targeting the default branch
+  # A push to any branch rebuilds the site, so every version stays in sync
   push:
-    branches: ["main"]
+    branches: ["**"]
+
+  # Rebuild after a branch is deleted so its version drops off the site
+  delete:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -31,13 +39,43 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Every branch is needed, not just the one that triggered the run
+          fetch-depth: 0
+
+      - name: Assemble one version per branch
+        run: |
+          set -euo pipefail
+          rm -rf _site && mkdir -p _site
+
+          git for-each-ref --format='%(refname:short)' refs/remotes/origin \
+            | grep -v '^origin/HEAD$' \
+            | sed 's|^origin/||' > branches.txt
+
+          while read -r branch; do
+            if [ "$branch" = "main" ]; then dest="_site"; else dest="_site/$branch"; fi
+            echo "::group::$branch -> ${dest#_site}/"
+            mkdir -p "$dest"
+            # Export the committed tree straight from the object database
+            git archive "origin/$branch" | tar -x -C "$dest"
+            rm -rf "$dest/.github"
+            echo "::endgroup::"
+          done < branches.txt
+
+          touch _site/.nojekyll
+
+      - name: Add sidebar version switcher
+        run: python3 .github/scripts/inject_version_switcher.py _site branches.txt
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
+          # Upload the assembled multi-version site
+          path: '_site'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5

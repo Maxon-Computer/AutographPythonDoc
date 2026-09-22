@@ -13,8 +13,10 @@ A typical example would be:
 
 .. code-block::
 
-    # Create a QQmlComponent from the QML file
-    comp = QQmlComponent(Autograph.app.getQmlEngine(), Autograph.app.getPythonScriptsDirPath() + '/MyPanel.qml')
+    # Create a QQmlComponent from the QML file sitting next to this script.
+    # getScriptDirPath() is the script's own folder; getPythonScriptsDirPath() is the scripts
+    # directory, which is the same thing only for a script loose in it, not one in a sub-folder.
+    comp = QQmlComponent(Autograph.app.getQmlEngine(), Autograph.app.getScriptDirPath() + '/MyPanel.qml')
     # Create an instance of the compoonent, passing it a QObject as property to interact with our Python properties
     return comp.createWithInitialProperties({"panel": self._obj})
 
@@ -80,7 +82,7 @@ This can be done with :meth:`Application.registerPanelClass` whith a factory cal
 	    return MyPanel()
 
 	# Register the panel class to Autograph
-	Autograph.app.registerPanelClass(makeMyPanel, 'com.mycompany.MyPanel', 'My Panel', Autograph.app.getPythonScriptsDirPath() + '/MyPanelIcon.svg', True)
+	Autograph.app.registerPanelClass(makeMyPanel, 'com.mycompany.MyPanel', 'My Panel', Autograph.app.getScriptDirPath() + '/MyPanelIcon.svg', True)
 
 
 The ``isSingleton`` parameter of the :meth:`Application.registerPanelClass` function is useful if your Panel class should be creatable only once in the Project. Non singletons Panels are quite rare and usually involve the user selecting which panel to use, such as the :class:`TimelinePanel` or :class:`ViewerPanel`.

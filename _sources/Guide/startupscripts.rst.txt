@@ -15,8 +15,52 @@ On start-up, Autograph executes Python scripts to setup the application. You can
         
 Any script in this directory (not recursively) will be executed. In Addition, foreach sub-folder that contains a **init.py** file, the script will be executed.
 
+Loose scripts in the directory are executed first, then the sub-folder **init.py** scripts. The order within each group is not guaranteed, so a script must not depend on another having run.
+
 These initialization scripts are executed very early in the application, before the main project is created. This is useful to register classes (e.g: :meth:`Autograph.Application.registerPanelClass`) and other types.
 At this stage, since no :class:`Project<Autograph.Project>` is yet created, you can only register callbacks to be executed later, such as :meth:`Autograph.Application.onProjectCreated` .
+
+Each script has its own namespace
+---------------------------------
+
+Every start-up script is executed as its own module, with its own global namespace. Two scripts that define a function or a global with the same name do not interfere with each other.
+
+The module is named after the plugin: a sub-folder's **init.py** takes the name of its folder, a loose script the name of its file, placed under an ``autograph_scripts`` package and adjusted to be a valid Python identifier.
+
+    ======================================  ==================================
+    Script                                  ``__name__``
+    ======================================  ==================================
+    ``my-plugin/init.py``                   ``autograph_scripts.my_plugin``
+    ``helper.py``                           ``autograph_scripts.helper``
+    ======================================  ==================================
+
+Note that ``__name__`` is therefore **not** ``"__main__"``. Work guarded by ``if __name__ == "__main__":`` will not run in a start-up script.
+
+Finding your own folder
+-----------------------
+
+A plugin in a sub-folder usually needs that folder in order to load the files next to its **init.py** — a ``.qml`` file, an icon, or its own Python modules. Use :meth:`Autograph.Application.getScriptDirPath`, which returns the directory of the script currently executing:
+
+.. code-block::
+
+  import sys, Autograph
+
+  # Make the modules next to this init.py importable
+  sys.path.insert(0, Autograph.app.getScriptDirPath())
+
+Do not confuse it with :meth:`Autograph.Application.getPythonScriptsDirPath`, which returns the *scripts directory* itself. That is the right answer only for a loose script sitting directly in it; for a plugin in a sub-folder it points one level too high.
+
+.. note::
+    ``__file__`` is also set correctly in a start-up script, so ``os.path.dirname(os.path.abspath(__file__))`` works as well. :meth:`Autograph.Application.getScriptDirPath` is preferred because it is derived from the running code object, and so stays correct even in a module that rebinds ``__file__``.
+
+Callbacks are kept alive
+------------------------
+
+Registering a callback — :meth:`Autograph.Application.onProjectCreated`, :meth:`Autograph.Application.onApplicationClosing` and the others — makes Autograph keep a reference to it, so a callable that nothing else refers to still works:
+
+.. code-block::
+
+  Autograph.app.onApplicationClosing(lambda: print("Goodbye"))
 
 Command-line scripts
 --------------------

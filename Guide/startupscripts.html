@@ -1,27 +1,25 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Start-up scripts &mdash; Autograph 2026.1.0 documentation</title>
+  <title>Start-up scripts &mdash; Autograph 2027.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
       <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=b916904f"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="../_static/dark_mode_js/default_dark.js?v=fd565c74"></script>
-        <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=35b3e550"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/dark_mode_js/default_dark.js?v=fd565c74"></script>
+      <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -40,9 +38,6 @@
           <a href="../index.html" class="icon icon-home">
             Autograph
           </a>
-              <div class="version">
-                2026.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -54,6 +49,9 @@
               <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Start-up scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#each-script-has-its-own-namespace">Each script has its own namespace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#finding-your-own-folder">Finding your own folder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#callbacks-are-kept-alive">Callbacks are kept alive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#command-line-scripts">Command-line scripts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#init-py">init.py</a></li>
@@ -115,8 +113,54 @@
 </ul>
 </div></blockquote>
 <p>Any script in this directory (not recursively) will be executed. In Addition, foreach sub-folder that contains a <strong>init.py</strong> file, the script will be executed.</p>
+<p>Loose scripts in the directory are executed first, then the sub-folder <strong>init.py</strong> scripts. The order within each group is not guaranteed, so a script must not depend on another having run.</p>
 <p>These initialization scripts are executed very early in the application, before the main project is created. This is useful to register classes (e.g: <a class="reference internal" href="../reference.html#Autograph.Application.registerPanelClass" title="Autograph.Application.registerPanelClass"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Application.registerPanelClass()</span></code></a>) and other types.
 At this stage, since no <a class="reference internal" href="../reference.html#Autograph.Project" title="Autograph.Project"><code class="xref py py-class docutils literal notranslate"><span class="pre">Project</span></code></a> is yet created, you can only register callbacks to be executed later, such as <a class="reference internal" href="../reference.html#Autograph.Application.onProjectCreated" title="Autograph.Application.onProjectCreated"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Application.onProjectCreated()</span></code></a> .</p>
+<section id="each-script-has-its-own-namespace">
+<h2>Each script has its own namespace<a class="headerlink" href="#each-script-has-its-own-namespace" title="Link to this heading"></a></h2>
+<p>Every start-up script is executed as its own module, with its own global namespace. Two scripts that define a function or a global with the same name do not interfere with each other.</p>
+<p>The module is named after the plugin: a sub-folder’s <strong>init.py</strong> takes the name of its folder, a loose script the name of its file, placed under an <code class="docutils literal notranslate"><span class="pre">autograph_scripts</span></code> package and adjusted to be a valid Python identifier.</p>
+<blockquote>
+<div><table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Script</p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">__name__</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">my-plugin/init.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">autograph_scripts.my_plugin</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">helper.py</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">autograph_scripts.helper</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">__name__</span></code> is therefore <strong>not</strong> <code class="docutils literal notranslate"><span class="pre">&quot;__main__&quot;</span></code>. Work guarded by <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">&quot;__main__&quot;:</span></code> will not run in a start-up script.</p>
+</section>
+<section id="finding-your-own-folder">
+<h2>Finding your own folder<a class="headerlink" href="#finding-your-own-folder" title="Link to this heading"></a></h2>
+<p>A plugin in a sub-folder usually needs that folder in order to load the files next to its <strong>init.py</strong> — a <code class="docutils literal notranslate"><span class="pre">.qml</span></code> file, an icon, or its own Python modules. Use <a class="reference internal" href="../reference.html#Autograph.Application.getScriptDirPath" title="Autograph.Application.getScriptDirPath"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Application.getScriptDirPath()</span></code></a>, which returns the directory of the script currently executing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">Autograph</span>
+
+<span class="c1"># Make the modules next to this init.py importable</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getScriptDirPath</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Do not confuse it with <a class="reference internal" href="../reference.html#Autograph.Application.getPythonScriptsDirPath" title="Autograph.Application.getPythonScriptsDirPath"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Application.getPythonScriptsDirPath()</span></code></a>, which returns the <em>scripts directory</em> itself. That is the right answer only for a loose script sitting directly in it; for a plugin in a sub-folder it points one level too high.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">__file__</span></code> is also set correctly in a start-up script, so <code class="docutils literal notranslate"><span class="pre">os.path.dirname(os.path.abspath(__file__))</span></code> works as well. <a class="reference internal" href="../reference.html#Autograph.Application.getScriptDirPath" title="Autograph.Application.getScriptDirPath"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Application.getScriptDirPath()</span></code></a> is preferred because it is derived from the running code object, and so stays correct even in a module that rebinds <code class="docutils literal notranslate"><span class="pre">__file__</span></code>.</p>
+</div>
+</section>
+<section id="callbacks-are-kept-alive">
+<h2>Callbacks are kept alive<a class="headerlink" href="#callbacks-are-kept-alive" title="Link to this heading"></a></h2>
+<p>Registering a callback — <a class="reference internal" href="../reference.html#Autograph.Application.onProjectCreated" title="Autograph.Application.onProjectCreated"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Application.onProjectCreated()</span></code></a>, <a class="reference internal" href="../reference.html#Autograph.Application.onApplicationClosing" title="Autograph.Application.onApplicationClosing"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Autograph.Application.onApplicationClosing()</span></code></a> and the others — makes Autograph keep a reference to it, so a callable that nothing else refers to still works:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">onApplicationClosing</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Goodbye&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
 <section id="command-line-scripts">
 <h2>Command-line scripts<a class="headerlink" href="#command-line-scripts" title="Link to this heading"></a></h2>
 <p>Autograph can also execute Python scripts provided from the command-line with the <code class="docutils literal notranslate"><span class="pre">--exe_script</span> <span class="pre">&lt;script&gt;</span></code> switch (which can be provided multiple times).
@@ -144,7 +188,7 @@ The scripts provided on the command-line are executed after creating (or loading
 
 <span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">registerMenuItem</span><span class="p">(</span><span class="n">myMenuAction</span><span class="p">,</span> <span class="s2">&quot;Python/My Action&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;Ctrl+Shift+L&quot;</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Python: starting </span><span class="si">%s</span><span class="s2">/init.py script. Autograph is background ? </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getPythonScriptsDirPath</span><span class="p">(),</span> <span class="s2">&quot;Yes&quot;</span> <span class="k">if</span> <span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">isBackground</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;No&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Python: starting </span><span class="si">%s</span><span class="s2">/init.py script. Autograph is background ? </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getScriptDirPath</span><span class="p">(),</span> <span class="s2">&quot;Yes&quot;</span> <span class="k">if</span> <span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">isBackground</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;No&quot;</span><span class="p">))</span>
 
 <span class="c1"># A custom QObject to hold properties that we need to interact with QML</span>
 <span class="c1"># Unfortunately, you cannot (yet) inherit both from QObject and Autograph.CustomPanel</span>
@@ -172,8 +216,13 @@ The scripts provided on the command-line are executed after creating (or loading
 
     <span class="c1"># Must be implemented to create the main QQuickItem</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">createMainItem</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># Create a QQmlComponent from the QML file</span>
-        <span class="n">comp</span> <span class="o">=</span> <span class="n">QQmlComponent</span><span class="p">(</span><span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getQmlEngine</span><span class="p">(),</span> <span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getPythonScriptsDirPath</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/MyPanel.qml&#39;</span><span class="p">)</span>
+        <span class="c1"># Create a QQmlComponent from the QML file.</span>
+        <span class="c1"># getScriptDirPath(), not getPythonScriptsDirPath(): the QML file sits next to this</span>
+        <span class="c1"># script, which is the same folder only while this script is loose in the scripts</span>
+        <span class="c1"># directory. Resolving against the script&#39;s own directory keeps working once it moves</span>
+        <span class="c1"># into a sub-folder. It works here as well as at module level, because this method is</span>
+        <span class="c1"># defined in this file.</span>
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">QQmlComponent</span><span class="p">(</span><span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getQmlEngine</span><span class="p">(),</span> <span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getScriptDirPath</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/MyPanel.qml&#39;</span><span class="p">)</span>
         <span class="c1"># Create an instance of the compoonent, passing it the QObject as property</span>
         <span class="k">return</span> <span class="n">comp</span><span class="o">.</span><span class="n">createWithInitialProperties</span><span class="p">({</span><span class="s2">&quot;panel&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="p">})</span>
 
@@ -241,7 +290,7 @@ The scripts provided on the command-line are executed after creating (or loading
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2026 Maxon Computer GmbH.</p>
+    <p>&#169; Copyright 2027 Maxon Computer GmbH.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

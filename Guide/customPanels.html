@@ -1,27 +1,25 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Creating custom Panels &mdash; Autograph 2026.1.0 documentation</title>
+  <title>Creating custom Panels &mdash; Autograph 2027.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/general.css?v=c0a7eb24" />
       <link rel="stylesheet" type="text/css" href="../_static/dark_mode_css/dark.css?v=70edf1c7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=b916904f"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="../_static/dark_mode_js/default_dark.js?v=fd565c74"></script>
-        <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=35b3e550"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/dark_mode_js/default_dark.js?v=fd565c74"></script>
+      <script src="../_static/dark_mode_js/theme_switcher.js?v=358d3910"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -40,9 +38,6 @@
           <a href="../index.html" class="icon icon-home">
             Autograph
           </a>
-              <div class="version">
-                2026.1
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -101,8 +96,10 @@
 <p>New Panel class must inherit <a class="reference internal" href="../reference.html#Autograph.CustomPanel" title="Autograph.CustomPanel"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomPanel</span></code></a> and implement the following virtual functions:</p>
 <p><a class="reference internal" href="../reference.html#Autograph.CustomPanel.createMainItem" title="Autograph.CustomPanel.createMainItem"><code class="xref py py-meth docutils literal notranslate"><span class="pre">CustomPanel.createMainItem()</span></code></a> : Must be implemented to return a <a class="reference external" href="https://doc.qt.io/qtforpython/PySide6/QtQuick/QQuickItem.html">QQuickItem</a> object.</p>
 <p>A typical example would be:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="c1"># Create a QQmlComponent from the QML file</span>
-   <span class="n">comp</span> <span class="o">=</span> <span class="n">QQmlComponent</span><span class="p">(</span><span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getQmlEngine</span><span class="p">(),</span> <span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getPythonScriptsDirPath</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/MyPanel.qml&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="c1"># Create a QQmlComponent from the QML file sitting next to this script.</span>
+   <span class="c1"># getScriptDirPath() is the script&#39;s own folder; getPythonScriptsDirPath() is the scripts</span>
+   <span class="c1"># directory, which is the same thing only for a script loose in it, not one in a sub-folder.</span>
+   <span class="n">comp</span> <span class="o">=</span> <span class="n">QQmlComponent</span><span class="p">(</span><span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getQmlEngine</span><span class="p">(),</span> <span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getScriptDirPath</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/MyPanel.qml&#39;</span><span class="p">)</span>
    <span class="c1"># Create an instance of the compoonent, passing it a QObject as property to interact with our Python properties</span>
    <span class="k">return</span> <span class="n">comp</span><span class="o">.</span><span class="n">createWithInitialProperties</span><span class="p">({</span><span class="s2">&quot;panel&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj</span><span class="p">})</span>
 
@@ -148,7 +145,8 @@
 <h2>Register the Panel class<a class="headerlink" href="#register-the-panel-class" title="Link to this heading"></a></h2>
 <p>To be available in the panels’s menu, you must first register the class in so Autograph knows about it.</p>
 <figure class="align-center">
-<a class="reference internal image-reference" href="../_images/panelMenu.jpeg"><img alt="../_images/panelMenu.jpeg" src="../_images/panelMenu.jpeg" style="width: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/panelMenu.jpeg"><img alt="../_images/panelMenu.jpeg" src="../_images/panelMenu.jpeg" width="300" />
+</a>
 </figure>
 <p>This can be done with <a class="reference internal" href="../reference.html#Autograph.Application.registerPanelClass" title="Autograph.Application.registerPanelClass"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Application.registerPanelClass()</span></code></a> whith a factory callable, e.g:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Factory function for MyPanel</span>
@@ -156,7 +154,7 @@
     <span class="k">return</span> <span class="n">MyPanel</span><span class="p">()</span>
 
 <span class="c1"># Register the panel class to Autograph</span>
-<span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">registerPanelClass</span><span class="p">(</span><span class="n">makeMyPanel</span><span class="p">,</span> <span class="s1">&#39;com.mycompany.MyPanel&#39;</span><span class="p">,</span> <span class="s1">&#39;My Panel&#39;</span><span class="p">,</span> <span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getPythonScriptsDirPath</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/MyPanelIcon.svg&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">registerPanelClass</span><span class="p">(</span><span class="n">makeMyPanel</span><span class="p">,</span> <span class="s1">&#39;com.mycompany.MyPanel&#39;</span><span class="p">,</span> <span class="s1">&#39;My Panel&#39;</span><span class="p">,</span> <span class="n">Autograph</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">getScriptDirPath</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/MyPanelIcon.svg&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">isSingleton</span></code> parameter of the <a class="reference internal" href="../reference.html#Autograph.Application.registerPanelClass" title="Autograph.Application.registerPanelClass"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Application.registerPanelClass()</span></code></a> function is useful if your Panel class should be creatable only once in the Project. Non singletons Panels are quite rare and usually involve the user selecting which panel to use, such as the <a class="reference internal" href="../reference.html#Autograph.TimelinePanel" title="Autograph.TimelinePanel"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimelinePanel</span></code></a> or <a class="reference internal" href="../reference.html#Autograph.ViewerPanel" title="Autograph.ViewerPanel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ViewerPanel</span></code></a>.</p>
@@ -197,7 +195,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2026 Maxon Computer GmbH.</p>
+    <p>&#169; Copyright 2027 Maxon Computer GmbH.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

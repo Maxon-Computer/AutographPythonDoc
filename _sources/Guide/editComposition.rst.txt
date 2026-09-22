@@ -18,8 +18,15 @@ However, some commonly used Params have a dedicated API to make it easier:
 
 	comp.setFormat(width, height, pixelAspectRatio)
 	comp.framerate = 60.0
+	# duration and startingTime are in seconds, not frames:
 	# 300 frames at 60fps is 5 seconds
-	comp.duration = 300
+	comp.duration = 5.0
+
+.. note::
+
+	:attr:`Composition.duration` and :attr:`Composition.startingTime` are expressed in **seconds**,
+	as are keyframe times. Changing :attr:`Composition.framerate` therefore does not move existing
+	keyframes: the animation keeps its timing and lands on different frame numbers.
 
 
 

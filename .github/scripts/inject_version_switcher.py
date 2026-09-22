@@ -58,6 +58,11 @@ def order(branches):
     return (["main"] if "main" in branches else []) + rest
 
 
+def label(branch):
+    """main holds the current release, so present it as "latest"."""
+    return "latest" if branch == "main" else branch
+
+
 def widget(versions, current, site_root, page_path):
     options = []
     for name, directory in versions:
@@ -94,7 +99,7 @@ def main():
         print("Only %d version(s); skipping version switcher." % len(branches))
         return
 
-    versions = [(b, "" if b == "main" else b + "/") for b in order(branches)]
+    versions = [(label(b), "" if b == "main" else b + "/") for b in order(branches)]
     # Longest directory first so "Autograph-2027/" wins over main's "".
     lookup = sorted(versions, key=lambda v: len(v[1]), reverse=True)
 
